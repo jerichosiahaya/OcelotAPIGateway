@@ -1,0 +1,55 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/weatherforecast", // services that we will call 
+      "DownstreamScheme": "https", // https or http
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8000 // port 
+        }
+      ],
+      "UpstreamPathTemplate": "/api/weather", // endpoint from gateway or new generated endpoint
+      "UpstreamHttpMethod": [ "Get" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"RateLimitOptions": {
+      //  "ClientWhitelist": [],
+      //  "EnableRateLimiting": true,
+      //  "Period": "5s",
+      //  "PeriodTimespan": 1,
+      //  "Limit": 1
+      //},
+      //"FileCacheOptions": { "TtlSeconds": 30 }
+    },
+    {
+      "DownstreamPathTemplate": "/api/auth", // services that we will call 
+      "DownstreamScheme": "https", // https or http
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001 // port 
+        }
+      ],
+      "UpstreamPathTemplate": "/api/authentication", // endpoint from gateway or new generated endpoint
+      "UpstreamHttpMethod": [ "Get" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"RateLimitOptions": {
+      //  "ClientWhitelist": [],
+      //  "EnableRateLimiting": true,
+      //  "Period": "5s",
+      //  "PeriodTimespan": 1,
+      //  "Limit": 1
+      //},
+      //"FileCacheOptions": { "TtlSeconds": 30 }
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5021" // ocelot will running on this url
+  }
+}
