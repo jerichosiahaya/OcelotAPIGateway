@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/weatherforecast", // services that we will call 
+      "DownstreamPathTemplate": "/api/v1/weatherforecast", // services that we will call 
       "DownstreamScheme": "https", // https or http
       "DownstreamHostAndPorts": [
         {
@@ -9,19 +9,18 @@
           "Port": 8000 // port 
         }
       ],
-      "UpstreamPathTemplate": "/api/weather", // endpoint from gateway or new generated endpoint
-      "UpstreamHttpMethod": [ "Get" ]
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "Bearer",
-      //  "AllowedScopes": []
-      //},
-      //"RateLimitOptions": {
-      //  "ClientWhitelist": [],
-      //  "EnableRateLimiting": true,
-      //  "Period": "5s",
-      //  "PeriodTimespan": 1,
-      //  "Limit": 1
-      //},
+      "UpstreamPathTemplate": "/api/v1/weather", // endpoint from gateway or new generated endpoint
+      "UpstreamHttpMethod": [ "Get" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "2m", // period of how long will limit applies 
+        "PeriodTimespan": 30, // this value specifies that we can retry after a certain number of seconds
+        "Limit": 3 // this value specifies the maximum number of requests that a client can make in a defined period || in other hand you can say that you have 1 limit request in 2m period time then you must wait 120s to make another request
+      },
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
       //"FileCacheOptions": { "TtlSeconds": 30 }
     },
     {
@@ -50,6 +49,12 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5021" // ocelot will running on this url
+    "BaseUrl": "https://localhost:5021", // ocelot will running on this url
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "Too many request!", // limit exceeded message
+      "HttpStatusCode": 509,
+      "ClientIdHeader": "Test"
+    }
   }
 }
